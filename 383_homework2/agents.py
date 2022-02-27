@@ -3,8 +3,10 @@ import math
 
 BOT_NAME = "YeeNeira383"
 
+
 class RandomAgent:
     """Agent that picks a random available move.  You should be able to beat it."""
+
     def __init__(self, sd=None):
         if sd is None:
             self.st = None
@@ -20,6 +22,7 @@ class RandomAgent:
 
 class HumanAgent:
     """Prompts user to supply a valid move."""
+
     def get_move(self, state, depth=None):
         move__state = dict(state.successors())
         prompt = "Kindly enter your move {}: ".format(sorted(move__state.keys()))
@@ -56,18 +59,18 @@ class MinimaxAgent:
 
         Returns: the exact minimax utility value of the state
         """
-        
-        player = state.next_player() # Identify player's turn for current board
-        
+
+        player = state.next_player()  # Identify player's turn for current board
+
         if player == 1:
             return self.maxValue(state)
         else:
             return self.minValue(state)
 
     def maxValue(self, state):
-        if len(state.successors()) == 0: # If state is terminal return utility value
+        if len(state.successors()) == 0:  # If state is terminal return utility value
             return state.utility()
-        
+
         termVal = -math.inf
         for m, s in range(len(state.successors())):
             termVal = max(termVal, self.minValue(s))
@@ -75,18 +78,19 @@ class MinimaxAgent:
         return termVal
 
     def minValue(self, state):
-        if len(state.successors()) == 0: # If state is terminal return utility value
+        if len(state.successors()) == 0:  # If state is terminal return utility value
             return state.utility()
-        
+
         termVal = math.inf
         for m, s in range(len(state.successors())):
             termVal = min(termVal, self.maxValue(s))
 
         return termVal
 
+
 class MinimaxHeuristicAgent(MinimaxAgent):
     """Artificially intelligent agent that uses depth-limited minimax to select the best move.
-    Hint: Consider what you did for MinimaxAgent. What do you need to change to get what you want? 
+    Hint: Consider what you did for MinimaxAgent. What do you need to change to get what you want?
     """
 
     def __init__(self, depth_limit):
@@ -95,9 +99,9 @@ class MinimaxHeuristicAgent(MinimaxAgent):
     def minimax(self, state):
         """Determine the heuristically estimated minimax utility value of the given state.
 
-        The depth data member (set in the constructor) determines the maximum depth of the game 
-        tree that gets explored before estimating the state utilities using the evaluation() 
-        function.  If depth is 0, no traversal is performed, and minimax returns the results of 
+        The depth data member (set in the constructor) determines the maximum depth of the game
+        tree that gets explored before estimating the state utilities using the evaluation()
+        function.  If depth is 0, no traversal is performed, and minimax returns the results of
         a call to evaluation().  If depth is None, the entire game tree is traversed.
 
         Args:
@@ -115,7 +119,6 @@ class MinimaxHeuristicAgent(MinimaxAgent):
 
         # return 4 # Change this line!
 
-
     def evaluation(self, state):
         """Estimate the utility value of the game state based on features.
 
@@ -131,21 +134,21 @@ class MinimaxHeuristicAgent(MinimaxAgent):
         # #
 
         # Change this line!
-        # Note: This cannot be "return state.utility() + c", where c is a constant. 
+        # Note: This cannot be "return state.utility() + c", where c is a constant.
         return state.utility() + 3
 
 
 class MinimaxPruneAgent(MinimaxAgent):
     """Smarter computer agent that uses minimax with alpha-beta pruning to select the best move.
-    Hint: Consider what you did for MinimaxAgent. What do you need to change to get what you want? 
+    Hint: Consider what you did for MinimaxAgent. What do you need to change to get what you want?
     """
 
     def minimax(self, state):
         """Determine the minimax utility value the given state using alpha-beta pruning.
 
-        The value should be equal to the one determined by MinimaxAgent.minimax(), but the 
-        algorithm should do less work.  You can check this by inspecting the value of the class 
-        variable GameState.state_count, which keeps track of how many GameState objects have been 
+        The value should be equal to the one determined by MinimaxAgent.minimax(), but the
+        algorithm should do less work.  You can check this by inspecting the value of the class
+        variable GameState.state_count, which keeps track of how many GameState objects have been
         created over time.  This agent should ignore any depth limits like HeuristicAgent.
 
         N.B.: When exploring the game tree and expanding nodes, you must consider the child nodes
@@ -153,7 +156,7 @@ class MinimaxPruneAgent(MinimaxAgent):
         the state reached by moving to column 4 before you've explored the state reached by a move
         to to column 1.
 
-        Args: 
+        Args:
             state: a connect383.GameState object representing the current board
 
         Returns: the minimax utility value of the state
@@ -163,7 +166,7 @@ class MinimaxPruneAgent(MinimaxAgent):
         # #
         # return 13  # Change this line!
 
-    def alphabeta(self, state,alpha, beta):
+    def alphabeta(self, state, alpha, beta):
         """ This is just a helper method for minimax(). Feel free to use it or not. """
         # return 9 # change this line!
 
@@ -180,3 +183,4 @@ class OtherMinimaxHeuristicAgent(MinimaxAgent):
         # Fill this in, if it pleases you.
         #
         return 26  # Change this line, unless you have something better to do.
+
