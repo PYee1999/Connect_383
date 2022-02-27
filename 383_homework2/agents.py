@@ -1,9 +1,7 @@
 import random
 import math
 
-
 BOT_NAME = "YeeNeira383"
-
 
 class RandomAgent:
     """Agent that picks a random available move.  You should be able to beat it."""
@@ -58,11 +56,33 @@ class MinimaxAgent:
 
         Returns: the exact minimax utility value of the state
         """
-        # #
-        # # Fill this in!
-        # #
-        # return 42  # Change this line!
+        
+        player = state.next_player() # Identify player's turn for current board
+        
+        if player == 1:
+            return self.maxValue(state)
+        else:
+            return self.minValue(state)
 
+    def maxValue(self, state):
+        if len(state.successors()) == 0: # If state is terminal return utility value
+            return state.utility()
+        
+        termVal = -math.inf
+        for m, s in range(len(state.successors())):
+            termVal = max(termVal, self.minValue(s))
+
+        return termVal
+
+    def minValue(self, state):
+        if len(state.successors()) == 0: # If state is terminal return utility value
+            return state.utility()
+        
+        termVal = math.inf
+        for m, s in range(len(state.successors())):
+            termVal = min(termVal, self.maxValue(s))
+
+        return termVal
 
 class MinimaxHeuristicAgent(MinimaxAgent):
     """Artificially intelligent agent that uses depth-limited minimax to select the best move.
@@ -160,4 +180,3 @@ class OtherMinimaxHeuristicAgent(MinimaxAgent):
         # Fill this in, if it pleases you.
         #
         return 26  # Change this line, unless you have something better to do.
-
